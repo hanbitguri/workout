@@ -1,0 +1,16 @@
+.dropdown-item {
+  list-style-type: none;
+  margin: -2px;
+}
+button {
+  border: 0;
+  cursor: pointer;
+}
+.dropdown-item.body {
+  opacity: 0;
+  visibility: hidden;
+}
+.dropdown-item.body.is-active {
+  opacity: 1;
+  visibility: visible;
+}

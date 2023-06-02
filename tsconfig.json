@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ES2015",
+    "outDir": "dist",
+    "strict": true,
+    "sourceMap": true,
+    "lib": ["ES2017", "DOM"]
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/dropdown.ts"]
+}
