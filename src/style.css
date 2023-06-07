@@ -1,16 +1,28 @@
-.dropdown-item {
-  list-style-type: none;
-  margin: -2px;
-}
 button {
   border: 0;
+  outline: none;
   cursor: pointer;
+  font-weight: 700;
+}
+
+.dropdown-item {
+  width: 200px;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
 }
 .dropdown-item.body {
   opacity: 0;
   visibility: hidden;
+  width: 100%;
+  min-width: 200px;
 }
 .dropdown-item.body.is-active {
   opacity: 1;
   visibility: visible;
+}
+li {
+  font-size: 12px;
 }

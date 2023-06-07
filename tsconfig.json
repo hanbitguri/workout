@@ -5,8 +5,14 @@
     "outDir": "dist",
     "strict": true,
     "sourceMap": true,
+    "moduleResolution": "node",
     "lib": ["ES2017", "DOM"]
   },
   "exclude": ["node_modules"],
-  "include": ["src/dropdown.ts"]
+  "include": [
+    "src/*.ts",
+    "src/component/dropdown.ts",
+    "src/component/chart.ts",
+    "src/component/modal.ts"
+  ]
 }
