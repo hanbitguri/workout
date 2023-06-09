@@ -1,7 +1,6 @@
 interface ModalOption {
   text: string | string[];
   type?: string;
-  icon?: string;
 }
 interface Modal {
   (option: string | ModalOption, callback?: () => void): void;
@@ -13,7 +12,7 @@ const modal: Modal = (option, callback?) => {
     el.className = `${target}`;
     return el;
   };
-  const $body: HTMLBodyElement | null = document.querySelector(`body`);
+  const $body: HTMLBodyElement | null = document.querySelector(`body`); // target body로 고정
 
   const modal = createDiv("modal");
   const okButton = createDiv("modal-ok-button");
@@ -39,12 +38,16 @@ const modal: Modal = (option, callback?) => {
   });
   // option 파라미터가 객체일때
   if (typeof option !== "string" && Array.isArray(option.text)) {
+    // 옵션 텍스트가 배열일떄
     modal.insertAdjacentHTML("afterbegin", option.text.join("<br>"));
   }
   if (typeof option !== "string" && !Array.isArray(option.text)) {
+    // 옵션이 객체일떄
     modal.innerText = option.text;
+    modal.appendChild(okButton);
   }
   if (typeof option !== "string" && option.type === "warning") {
+    // 옵션이 객체 (warning) 일때
     const cancelButton = createDiv("modal-cancel-button");
     cancelButton.innerText = "Cancel";
     okButton.className = "modal-warning-button";
