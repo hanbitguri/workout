@@ -102,7 +102,7 @@ export function radarChart(target: string, id: string, radarData: any) {
     context.fillText("Pronunciation", 130, 10);
     context.fillText("Intonation", 240, 75);
     context.fillText("Loudness", 140, 140);
-    context.fillText("Timing Score", 20, 75);
+    context.fillText("Timing Score", 10, 75);
 
     context.fillText("0%", 105, 75);
     context.fillText("50%", 105, 45);
@@ -196,26 +196,26 @@ export function radar5Chart(target: string, id: string, grade: any) {
     context.fillText("5", 130, 30);
 
     context.strokeStyle = "blue";
-    liner(149, 149 + grade[1] * 11, 79 - grade[0] * 11, 79 - grade[1] * 4);
+    liner(149, 149 + grade[1] * 12, 77.8 - grade[0] * 11, 77.8 - grade[1] * 3);
     liner(
-      149 + grade[1] * 11,
+      149 + grade[1] * 12,
       149 + grade[2] * 7,
-      79 - grade[1] * 4,
-      79 + grade[2] * 9
+      77.8 - grade[1] * 3,
+      77.8 + grade[2] * 10
     );
     liner(
       149 + grade[2] * 7,
       149 - grade[3] * 7,
-      79 + grade[2] * 9,
-      79 + grade[3] * 9
+      77.8 + grade[2] * 10,
+      77.8 + grade[3] * 10
     );
     liner(
       149 - grade[3] * 7,
       149 - grade[4] * 11,
-      79 + grade[3] * 9,
-      79 - grade[4] * 4
+      77.8 + grade[3] * 10,
+      77.8 - grade[4] * 3
     );
-    liner(149 - grade[4] * 11, 149, 79 - grade[4] * 4, 79 - grade[0] * 11);
+    liner(149 - grade[4] * 11, 149, 77.8 - grade[4] * 3, 77.8 - grade[0] * 11);
   }
   $target?.appendChild(canvas);
 }
