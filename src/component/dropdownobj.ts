@@ -9,8 +9,8 @@ export class DropDown {
   currentIndex: number;
   currentDropDown: HTMLDivElement | null;
   dropdownHead: string;
-  dropdownBody: HTMLLIElement[] | null;
-  callback?: Function; // 콜백함수?
+  dropdownBody: HTMLLIElement[] | null; // 유사객체 => 배열로 치환
+  callback?: Function; // 콜백함수
   constructor(
     target: string,
     id: string,
@@ -37,6 +37,7 @@ export class DropDown {
                     </ol>
                 </div>
                     `;
+
     for (let i = 0; i < this.dropdownData.length; i++) {
       const label = this.dropdownData[i].label;
       const value = this.dropdownData[i].value;
@@ -55,10 +56,9 @@ export class DropDown {
     );
     this.attachTarget!.insertAdjacentElement("afterbegin", dropdown);
     this.currentDropDown = document.querySelector(`#${this.dropdownId}`)!;
-
-    this.dropdownBody = this.currentDropDown.querySelectorAll(
-      "body"
-    ) as unknown as HTMLLIElement[];
+    this.dropdownBody = Array.from(
+      this.currentDropDown.querySelectorAll("dropdown-item") //
+    );
 
     this.addEvent();
   }
@@ -93,6 +93,7 @@ export class DropDown {
       bodyItem.addEventListener("click", (e) => {
         this.currentIndex = Number(bodyItem.getAttribute("data-key"));
         this.updateDropDown();
+        this.callback && this.callback(); // 콜백 추가
       });
     });
 
