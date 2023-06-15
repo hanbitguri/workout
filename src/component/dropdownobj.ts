@@ -7,8 +7,10 @@ export class DropDown {
   dropdownId: string;
   dropdownData: DropDownData;
   currentIndex: number;
+  currentValue: string;
+  isOpened: boolean | undefined;
   currentDropDown: HTMLDivElement | null;
-  dropdownHead: string;
+  dropdownHead: HTMLLIElement | null;
   dropdownBody: HTMLLIElement[] | null; // 유사객체 => 배열로 치환
   callback?: Function; // 콜백함수
   constructor(
@@ -20,9 +22,11 @@ export class DropDown {
     this.attachTarget = document.querySelector(`${target}`);
     this.dropdownId = `${id}-dropdown`;
     this.dropdownData = this.transformedData(data);
+
     this.currentIndex = 0;
-    this.dropdownHead = this.dropdownData[this.currentIndex].value;
     this.callback = callback;
+    this.currentValue = this.dropdownData[this.currentIndex].value;
+
     const dropdown = document.createElement("div");
     dropdown.id = this.dropdownId;
     const dropdownList: string[] = [];
@@ -31,7 +35,7 @@ export class DropDown {
                 <div class='dropdown'>
                     <ol class='dropdown-list'>
                     <li class='dropdown-item head'>
-                          <button type='button'><strong>${this.dropdownHead}</strong><span>▼</span></button>
+                          <button type='button'><strong>${this.currentValue}</strong><span>▼</span></button>
                       </li>
                     {{MenuItem}}
                     </ol>
@@ -54,11 +58,16 @@ export class DropDown {
       "{{MenuItem}}",
       dropdownList.join("")
     );
+
     this.attachTarget!.insertAdjacentElement("afterbegin", dropdown);
     this.currentDropDown = document.querySelector(`#${this.dropdownId}`)!;
-    this.dropdownBody = Array.from(
-      this.currentDropDown.querySelectorAll("dropdown-item") //
+    this.dropdownHead = this.currentDropDown.querySelector(
+      ".dropdown-item.head"
     );
+    this.dropdownBody = Array.from(
+      this.currentDropDown.querySelectorAll(".dropdown-item.body") //
+    );
+    this.isOpened = this.dropdownHead?.classList.contains("is-active");
 
     this.addEvent();
   }
@@ -79,19 +88,20 @@ export class DropDown {
       return acc;
     }, []);
   }
+
   addEvent(): void {
-    const head = this.currentDropDown?.querySelector(".dropdown-item.head");
-    const body = this.currentDropDown?.querySelectorAll(".dropdown-item.body");
-    head?.addEventListener("click", (event) => {
+    this.dropdownHead?.addEventListener("click", (event) => {
+      this.dropdownHead?.classList.toggle("is-active");
+
       event.stopPropagation();
-      body?.forEach((bodyItem) => {
+      this.dropdownBody?.forEach((bodyItem) => {
         bodyItem.classList.toggle("is-active");
       });
     });
 
-    body?.forEach((bodyItem) => {
-      bodyItem.addEventListener("click", (e) => {
-        this.currentIndex = Number(bodyItem.getAttribute("data-key"));
+    this.dropdownBody?.forEach((bodyItem) => {
+      bodyItem.addEventListener("click", () => {
+        this.currentIndex = Number(bodyItem.getAttribute("data-key")); // 헤드 UI 업데이트
         this.updateDropDown();
         this.callback && this.callback(); // 콜백 추가
       });
@@ -101,7 +111,7 @@ export class DropDown {
       event.stopPropagation();
     });
     document.addEventListener("click", () => {
-      body?.forEach((bodyItem) => {
+      this.dropdownBody?.forEach((bodyItem) => {
         bodyItem.classList.remove("is-active");
       });
     });
